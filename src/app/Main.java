@@ -8,7 +8,7 @@ public class Main {
 
         AuthManager auth = new AuthManager();
 
-        boolean result = auth.login("souad", "1234");
+        boolean result = auth.signup("", "7777");
 
         System.out.println(result);
 
