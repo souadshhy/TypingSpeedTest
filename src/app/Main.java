@@ -1,16 +1,16 @@
 package app;
 
-import logic.AuthManager;
+import logic.TextSelector;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        AuthManager auth = new AuthManager();
+        TextSelector selector = new TextSelector();
 
-        boolean result = auth.signup("", "7777");
+        String text = selector.getRandomText();
 
-        System.out.println(result);
-
+        System.out.println("=== RANDOM TEST TEXT ===");
+        System.out.println(text);
     }
 }
