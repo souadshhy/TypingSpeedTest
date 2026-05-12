@@ -2,3 +2,6 @@ souad,1234
 sidra,pass1
 mike,7777
 testuser,1234
+Sidra,pass1
+sisi,passs
+Hanin,password
