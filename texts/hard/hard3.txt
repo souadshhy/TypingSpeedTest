@@ -1,0 +1,1 @@
+Developers frequently apply object oriented principles such as encapsulation, inheritance, and polymorphism to design scalable Java applications.

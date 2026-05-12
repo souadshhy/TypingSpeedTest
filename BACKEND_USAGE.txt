@@ -1,0 +1,47 @@
+BACKEND API GUIDE
+
+1. Login / Signup
+
+AuthManager auth = new AuthManager();
+
+boolean loginSuccess = auth.login(username, password);
+boolean signupSuccess = auth.signup(username, password);
+
+
+2. Generate typing text
+
+TypingTestManager manager = new TypingTestManager();
+
+String text = manager.generateTestText(Difficulty.EASY);
+String text = manager.generateTestText(Difficulty.MEDIUM);
+String text = manager.generateTestText(Difficulty.HARD);
+
+
+3. Submit typing test
+
+TestResult result = manager.submitTypingTest(
+    username,
+    originalText,
+    typedText,
+    timeInSeconds,
+    difficulty
+);
+
+
+4. Get result values
+
+result.getWpm();
+result.getAccuracy();
+result.getMistakes();
+result.getTimeInSeconds();
+result.getDifficulty();
+result.getFinalScore();
+
+
+5. Get analytics
+
+manager.getAverageWPM(username);
+manager.getBestWPM(username);
+manager.getAverageAccuracy(username);
+manager.getTotalTests(username);
+manager.getUserHistory(username);

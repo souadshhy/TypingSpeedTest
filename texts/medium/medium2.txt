@@ -1,0 +1,1 @@
+Typing speed tests usually calculate words per minute by counting typed words and dividing them by the number of minutes spent typing.

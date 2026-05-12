@@ -4,19 +4,24 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
+import model.Difficulty;
 
 public class TextSelector {
 
     private final String folderPath = "texts/";
 
     public String getRandomText() {
+        return getRandomText(Difficulty.MEDIUM);
+    }
 
-        File folder = new File(folderPath);
+    public String getRandomText(Difficulty difficulty) {
+
+        File folder = new File(folderPath + difficulty.name().toLowerCase());
 
         File[] files = folder.listFiles();
 
         if (files == null || files.length == 0) {
-            return "No test files available.";
+            return "No test files available for " + difficulty.name();
         }
 
         Random random = new Random();
@@ -24,7 +29,6 @@ public class TextSelector {
         File selectedFile = files[random.nextInt(files.length)];
 
         return readFileContent(selectedFile);
-
     }
 
     private String readFileContent(File file) {
@@ -32,7 +36,6 @@ public class TextSelector {
         StringBuilder content = new StringBuilder();
 
         try {
-
             Scanner scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {

@@ -1,0 +1,1 @@
+Object oriented programming allows developers to organize software into classes and objects that represent real world entities and behaviors.

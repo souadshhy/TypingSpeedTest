@@ -4,25 +4,35 @@ public class StatsCalculator {
 
     public double calculateWPM(String typedText, int timeInSeconds) {
 
+        if (typedText == null || typedText.trim().isEmpty()) {
+            return 0;
+        }
+
+        if (timeInSeconds <= 0) {
+            return 0;
+        }
+
         String[] words = typedText.trim().split("\\s+");
 
         int wordCount = words.length;
 
         double minutes = timeInSeconds / 60.0;
 
-        double wpm = wordCount / minutes;
-
-        return wpm;
-
+        return wordCount / minutes;
     }
+
     public double calculateAccuracy(int mistakes, int totalCharacters) {
 
-    int correctCharacters = totalCharacters - mistakes;
+        if (totalCharacters <= 0) {
+            return 0;
+        }
 
-    double accuracy =
-            ((double) correctCharacters / totalCharacters) * 100;
+        int correctCharacters = totalCharacters - mistakes;
 
-    return accuracy;
+        if (correctCharacters < 0) {
+            correctCharacters = 0;
+        }
 
-}
+        return ((double) correctCharacters / totalCharacters) * 100;
+    }
 }

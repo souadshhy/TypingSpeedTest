@@ -1,0 +1,1 @@
+Good software design separates the user interface from the application logic so that both parts remain easier to maintain and extend.

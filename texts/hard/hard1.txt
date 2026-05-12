@@ -1,0 +1,1 @@
+Modern software engineering emphasizes maintainable architecture, reusable components, and clean communication between frontend and backend modules.

@@ -1,181 +1,191 @@
 package logic;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import model.Difficulty;
 import model.TestResult;
-
 import model.User;
 
 public class DataManager {
 
-public ArrayList<User> loadUsers() {
+    private final String usersPath = "data/users.txt";
+    private final String resultsPath = "data/results.txt";
 
-    ArrayList<User> users = new ArrayList<>();
-
-    try {
-
-        File file = new File("data/users.txt");
-
-        Scanner scanner = new Scanner(file);
-
-        while (scanner.hasNextLine()) {
-
-            String line = scanner.nextLine();
-
-            String[] parts = line.split(",");
-
-            String username = parts[0];
-            String password = parts[1];
-
-            User user = new User(username, password);
-
-            users.add(user);
-
-        }
-
-        scanner.close();
-
-    } catch (FileNotFoundException e) {
-
-        System.out.println("File not found.");
-
+    public DataManager() {
+        createDataFilesIfMissing();
     }
+
+    private void createDataFilesIfMissing() {
+
+        try {
+            File dataFolder = new File("data");
+
+            if (!dataFolder.exists()) {
+                dataFolder.mkdir();
+            }
+
+            File usersFile = new File(usersPath);
+
+            if (!usersFile.exists()) {
+                usersFile.createNewFile();
+            }
+
+            File resultsFile = new File(resultsPath);
+
+            if (!resultsFile.exists()) {
+                resultsFile.createNewFile();
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error creating data files.");
+        }
+    }
+
+    public ArrayList<User> loadUsers() {
+
+        ArrayList<User> users = new ArrayList<>();
+
+        try {
+            Scanner scanner = new Scanner(new File(usersPath));
+
+            while (scanner.hasNextLine()) {
+
+                String line = scanner.nextLine();
+
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+
+                String[] parts = line.split(",");
+
+                if (parts.length < 2) {
+                    continue;
+                }
+
+                users.add(new User(parts[0], parts[1]));
+            }
+
+            scanner.close();
+
+        } catch (IOException e) {
+            System.out.println("Error loading users.");
+        }
 
         return users;
     }
-public void saveUser(User user) {
 
-    try {
+    public void saveUser(User user) {
 
-        FileWriter writer = new FileWriter("data/users.txt", true);
+        try {
+            FileWriter writer = new FileWriter(usersPath, true);
 
-        writer.write(user.getUsername()
-                + ","
-                + user.getPassword()
-                + "\n");
+            writer.write(
+                    user.getUsername() + ","
+                    + user.getPassword() + "\n"
+            );
 
-        writer.close();
+            writer.close();
 
-    } catch (IOException e) {
-
-        System.out.println("Error writing to file.");
-
+        } catch (IOException e) {
+            System.out.println("Error saving user.");
+        }
     }
 
-}
-public void saveResult(String username, TestResult result) {
+    public void saveResult(TestResult result) {
 
-    try {
+        try {
+            FileWriter writer = new FileWriter(resultsPath, true);
 
-        FileWriter writer =
-                new FileWriter("data/results.txt", true);
+            writer.write(
+                    result.getUsername() + ","
+                    + result.getWpm() + ","
+                    + result.getAccuracy() + ","
+                    + result.getMistakes() + ","
+                    + result.getTimeInSeconds() + ","
+                    + result.getDifficulty() + ","
+                    + result.getFinalScore()
+                    + "\n"
+            );
 
-        writer.write(
-                result.getUsername() + ","
-                + result.getWpm() + ","
-                + result.getAccuracy() + ","
-                + result.getMistakes() + ","
-                + result.getTimeInSeconds()
-                + "\n"
-        );
+            writer.close();
 
-        writer.close();
-
-    } catch (IOException e) {
-
-        System.out.println("Error saving result.");
-
+        } catch (IOException e) {
+            System.out.println("Error saving result.");
+        }
     }
 
-}
-public ArrayList<TestResult> loadResults() {
+    public ArrayList<TestResult> loadResults() {
 
-    ArrayList<TestResult> results =
-            new ArrayList<>();
+        ArrayList<TestResult> results = new ArrayList<>();
 
-    try {
+        try {
+            Scanner scanner = new Scanner(new File(resultsPath));
 
-        File file = new File("data/results.txt");
+            while (scanner.hasNextLine()) {
 
-        Scanner scanner = new Scanner(file);
+                String line = scanner.nextLine();
 
-        while (scanner.hasNextLine()) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
 
-            String line = scanner.nextLine();
+                String[] parts = line.split(",");
 
-            String[] parts = line.split(",");
-            if (parts.length < 5) {
+                if (parts.length < 5) {
+                    continue;
+                }
 
-                continue;
+                String username = parts[0];
+                double wpm = Double.parseDouble(parts[1]);
+                double accuracy = Double.parseDouble(parts[2]);
+                int mistakes = Integer.parseInt(parts[3]);
+                int time = Integer.parseInt(parts[4]);
+
+                Difficulty difficulty = Difficulty.MEDIUM;
+                double finalScore = 0;
+
+                if (parts.length >= 7) {
+                    difficulty = Difficulty.valueOf(parts[5]);
+                    finalScore = Double.parseDouble(parts[6]);
+                }
+
+                TestResult result = new TestResult(
+                        username,
+                        wpm,
+                        accuracy,
+                        mistakes,
+                        time,
+                        difficulty,
+                        finalScore
+                );
+
+                results.add(result);
             }
-            String username = parts[0];
 
-            double wpm =
-                    Double.parseDouble(parts[1]);
+            scanner.close();
 
-            double accuracy =
-                    Double.parseDouble(parts[2]);
-
-            int mistakes =
-                    Integer.parseInt(parts[3]);
-
-            int time =
-                    Integer.parseInt(parts[4]);
-
-            TestResult result =
-                    new TestResult(
-                            username,
-                            wpm,
-                            accuracy,
-                            mistakes,
-                            time
-                    );
-
-            results.add(result);
-
+        } catch (IOException e) {
+            System.out.println("Error loading results.");
         }
 
-        scanner.close();
-
-    } catch (FileNotFoundException e) {
-
-        System.out.println("Results file not found.");
-
+        return results;
     }
 
-    return results;
+    public ArrayList<TestResult> getUserResults(String username) {
 
-}
+        ArrayList<TestResult> allResults = loadResults();
+        ArrayList<TestResult> userResults = new ArrayList<>();
 
-public ArrayList<TestResult> getUserResults(String username) {
+        for (TestResult result : allResults) {
 
-    ArrayList<TestResult> allResults =
-            loadResults();
-
-    ArrayList<TestResult> userResults =
-            new ArrayList<>();
-
-    for (TestResult result : allResults) {
-
-        if (result.getUsername().equals(username)) {
-
-            userResults.add(result);
-
+            if (result.getUsername().equals(username)) {
+                userResults.add(result);
+            }
         }
 
+        return userResults;
     }
-
-    return userResults;
-
-}
-public int getTotalTests(
-        ArrayList<TestResult> results) {
-
-    return results.size();
-
-}
 }

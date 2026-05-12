@@ -1,0 +1,1 @@
+Simple typing tests help users measure their words per minute, mistakes, and overall typing accuracy during practice.

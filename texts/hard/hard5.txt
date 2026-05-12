@@ -1,0 +1,1 @@
+Performance analysis in typing applications may include calculating average typing speed, accuracy percentages, and long term improvement statistics.
