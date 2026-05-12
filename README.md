@@ -71,9 +71,6 @@ TypingSpeedTest/
 │
 ├── src/
 │   │
-│   ├── app/
-│   │   └── Main.java
-│   │
 │   ├── logic/
 │   │   ├── AnalyticsManager.java
 │   │   ├── AuthManager.java
@@ -93,6 +90,7 @@ TypingSpeedTest/
 │   │   └── User.java
 │   │
 │   └── ui/
+|       |── Main.java
 │       ├── GraphScreen.java
 │       ├── LoginScreen.java
 │       ├── MenuScreen.java
