@@ -8,8 +8,8 @@ public class EasyScoreStrategy extends ScoreStrategy {
             double accuracy,
             int mistakes) {
 
-        return (wpm * 0.4)
-                + (accuracy * 0.6)
-                - (mistakes * 1);
+        // Ensure score doesn't go below 0
+        double score = (wpm * 0.4) + (accuracy * 0.6) - (mistakes * 0.5);
+        return Math.max(0, Math.min(100, score));
     }
 }

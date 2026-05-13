@@ -8,8 +8,7 @@ public class HardScoreStrategy extends ScoreStrategy {
             double accuracy,
             int mistakes) {
 
-        return (wpm * 0.6)
-                + (accuracy * 0.4)
-                - (mistakes * 3);
+        double score = (wpm * 0.6) + (accuracy * 0.4) - (mistakes * 1);
+        return Math.max(0, Math.min(100, score));
     }
 }

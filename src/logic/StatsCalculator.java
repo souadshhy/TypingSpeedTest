@@ -13,26 +13,28 @@ public class StatsCalculator {
         }
 
         String[] words = typedText.trim().split("\\s+");
-
         int wordCount = words.length;
-
+        
+        // Standard WPM calculation: (words / minutes)
         double minutes = timeInSeconds / 60.0;
-
-        return wordCount / minutes;
+        double wpm = wordCount / minutes;
+        
+        // Cap at reasonable maximum
+        return Math.min(wpm, 200);
     }
 
     public double calculateAccuracy(int mistakes, int totalCharacters) {
 
         if (totalCharacters <= 0) {
-            return 0;
+            return 100;
         }
 
         int correctCharacters = totalCharacters - mistakes;
-
         if (correctCharacters < 0) {
             correctCharacters = 0;
         }
 
-        return ((double) correctCharacters / totalCharacters) * 100;
+        double accuracy = ((double) correctCharacters / totalCharacters) * 100;
+        return Math.max(0, Math.min(100, accuracy));
     }
 }

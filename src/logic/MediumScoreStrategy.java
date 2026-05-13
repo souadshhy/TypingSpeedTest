@@ -8,8 +8,7 @@ public class MediumScoreStrategy extends ScoreStrategy {
             double accuracy,
             int mistakes) {
 
-        return (wpm * 0.5)
-                + (accuracy * 0.5)
-                - (mistakes * 2);
+        double score = (wpm * 0.5) + (accuracy * 0.5) - (mistakes * 0.8);
+        return Math.max(0, Math.min(100, score));
     }
 }

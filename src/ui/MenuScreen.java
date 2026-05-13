@@ -27,7 +27,7 @@ public class MenuScreen extends JFrame {
         gbc.insets = new Insets(15, 15, 15, 15);
 
         // Welcome message
-        JLabel welcomeLabel = new JLabel("Welcome, " + username + "! 👋");
+        JLabel welcomeLabel = new JLabel("Welcome, " + username + "!");
         welcomeLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         welcomeLabel.setForeground(new Color(70, 130, 200));
         gbc.gridx = 0;

@@ -47,7 +47,7 @@ public class ResultScreen extends JFrame {
         addResultRow(resultsPanel, "Accuracy:", String.format("%.1f%%", result.getAccuracy()));
         addResultRow(resultsPanel, "Mistakes:", String.valueOf(result.getMistakes()));
         addResultRow(resultsPanel, "Time:", result.getTimeInSeconds() + " seconds");
-        addResultRow(resultsPanel, "🎚️ Difficulty:", result.getDifficulty().toString());
+        addResultRow(resultsPanel, "Difficulty:", result.getDifficulty().toString());
         addResultRow(resultsPanel, "Final Score:", String.format("%.1f", result.getFinalScore()));
 
         // Performance message
@@ -110,18 +110,27 @@ public class ResultScreen extends JFrame {
 
     private String getPerformanceMessage() {
         double score = result.getFinalScore();
-        if (score >= 80) return "Excellent! You're a typing master!";
-        if (score >= 60) return "Good job! Keep practicing!";
-        if (score >= 40) return "Not bad! You can do better!";
-        return "Keep practicing! You'll improve!";
+        double wpm = result.getWpm();
+        
+        if (score >= 80 && wpm >= 60) {
+            return "Excellent! You're a typing master!";
+        } else if (score >= 70 && wpm >= 45) {
+            return "Great job! Keep practicing!";
+        } else if (score >= 60 && wpm >= 35) {
+            return "Good effort! You can improve!";
+        } else if (score >= 50) {
+            return "Not bad! Practice more to get better!";
+        } else {
+            return "Keep practicing! Focus on accuracy first!";
+        }
     }
 
     private Color getPerformanceColor() {
         double score = result.getFinalScore();
-        if (score >= 80) return new Color(60, 179, 113);
-        if (score >= 60) return new Color(70, 130, 200);
-        if (score >= 40) return new Color(255, 140, 0);
-        return new Color(220, 20, 60);
+        if (score >= 80) return new Color(60, 179, 113);  // Green
+        if (score >= 60) return new Color(70, 130, 200);  // Blue
+        if (score >= 40) return new Color(255, 140, 0);   // Orange
+        return new Color(220, 20, 60);                    // Red
     }
 
     private JButton createResultButton(String text, Color bgColor) {

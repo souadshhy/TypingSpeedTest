@@ -18,25 +18,23 @@ public class TypingEngine {
             int timeInSeconds,
             Difficulty difficulty) {
 
+        // Count mistakes
         int mistakes = countMistakes(originalText, typedText);
-
-        double wpm = statsCalculator.calculateWPM(
-                typedText,
-                timeInSeconds
-        );
-
-        double accuracy = statsCalculator.calculateAccuracy(
-                mistakes,
-                originalText.length()
-        );
-
+        
+        // Calculate WPM
+        double wpm = statsCalculator.calculateWPM(typedText, timeInSeconds);
+        
+        // Calculate accuracy
+        double accuracy = statsCalculator.calculateAccuracy(mistakes, originalText.length());
+        
+        // Get scoring strategy
         ScoreStrategy strategy = getScoreStrategy(difficulty);
-
-        double finalScore = strategy.calculateFinalScore(
-                wpm,
-                accuracy,
-                mistakes
-        );
+        
+        // Calculate final score (0-100 range)
+        double finalScore = strategy.calculateFinalScore(wpm, accuracy, mistakes);
+        
+        // Ensure score is between 0 and 100
+        finalScore = Math.max(0, Math.min(100, finalScore));
 
         return new TestResult(
                 username,
@@ -50,7 +48,6 @@ public class TypingEngine {
     }
 
     private ScoreStrategy getScoreStrategy(Difficulty difficulty) {
-
         if (difficulty == Difficulty.EASY) {
             return new EasyScoreStrategy();
         } else if (difficulty == Difficulty.HARD) {
@@ -61,24 +58,29 @@ public class TypingEngine {
     }
 
     public int countMistakes(String originalText, String typedText) {
-
+        if (originalText == null || typedText == null) {
+            return 0;
+        }
+        
         int mistakes = 0;
+        int minLength = Math.min(originalText.length(), typedText.length());
 
-        int minLength = Math.min(
-                originalText.length(),
-                typedText.length()
-        );
-
+        // Count character mismatches
         for (int i = 0; i < minLength; i++) {
-
             if (originalText.charAt(i) != typedText.charAt(i)) {
                 mistakes++;
             }
         }
 
-        mistakes += Math.abs(
-                originalText.length() - typedText.length()
-        );
+        // Add extra characters as mistakes
+        if (typedText.length() > originalText.length()) {
+            mistakes += (typedText.length() - originalText.length());
+        }
+        
+        // Add missing characters as mistakes
+        if (originalText.length() > typedText.length()) {
+            mistakes += (originalText.length() - typedText.length());
+        }
 
         return mistakes;
     }
