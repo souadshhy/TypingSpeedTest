@@ -310,3 +310,5 @@ Hasan Kalyoncu University
 # Authors
 
 Group Project – Typing Speed Test System
+Sooad Shhadah
+Sidra Ashram
