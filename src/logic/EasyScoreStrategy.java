@@ -2,7 +2,7 @@ package logic;
 
 public class EasyScoreStrategy extends ScoreStrategy {
 
-    @Override
+    @Override // overriding parent method
     public double calculateFinalScore(
             double wpm,
             double accuracy,

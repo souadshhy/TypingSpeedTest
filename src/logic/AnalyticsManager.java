@@ -1,6 +1,6 @@
 package logic;
 
-import java.util.ArrayList;
+import java.util.ArrayList; // dynamic size
 
 import model.TestResult;
 
@@ -34,7 +34,7 @@ public double getBestWPM(
         return 0;
 
     }
-
+    
     double best = results.get(0).getWpm();
 
     for (TestResult result : results) {

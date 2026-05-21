@@ -9,7 +9,9 @@ import model.Difficulty;
 public class TextSelector {
 
     private final String folderPath = "texts/";
-
+    
+    // method overloading
+    // if no difficulity selected, default medium
     public String getRandomText() {
         return getRandomText(Difficulty.MEDIUM);
     }
@@ -32,7 +34,7 @@ public class TextSelector {
     }
 
     private String readFileContent(File file) {
-
+        // mutable seq of char
         StringBuilder content = new StringBuilder();
 
         try {
